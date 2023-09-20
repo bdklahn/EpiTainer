@@ -2,6 +2,7 @@
 export ENV_NAME=pandasplot
 
 %appinstall pandasplot
+$MAMBA_EXE create --yes --channel conda-forge --name $ENV_NAME python=3.11
 $MAMBA_EXE run --name $ENV_NAME pip install pandas==2.1.1 matplotlib==3.8.0
 
 %apprun pandasplot
