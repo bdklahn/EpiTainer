@@ -6,4 +6,4 @@ $MAMBA_EXE run --name pandasplot pip install pandas==2.1.1 matplotlib==3.8.0
 export ENV_NAME=pandasplot
 
 %apprun pandasplot
-$MAMBA_EXE run --name $ENV_NAME python -e "import pandas as pd; print('pandas version: ', pd.__version__)"
+$MAMBA_EXE run --name $ENV_NAME python -c "import pandas as pd; print('pandas version: ', pd.__version__)"
