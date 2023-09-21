@@ -11,6 +11,11 @@ git show HEAD:misc_data/co-est2019-alldata.csv > ${SCIF_APPDATA}/co-est2019-alld
 git show HEAD:misc_data/stfips_to_state.csv > ${SCIF_APPDATA}/stfips_to_state.csv
 git show HEAD:misc_data/us_subplot_grid.csv > ${SCIF_APPDATA}/us_subplot_grid.csv
 
+%appenv us_inflection_point_hosp
+export ENV_NAME=us_inflection_point_hosp
+
+%apphelp us_inflection_point_hosp
+echo "This app will run in the conda environment: $ENV_NAME"
 
 # example Python app
 #%appinstall pandasplot
