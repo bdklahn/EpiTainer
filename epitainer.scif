@@ -43,7 +43,7 @@
 
 %appinstall us_inflection_point_hosp_sciduct
     mkdir -p $SCIF_APPDATA/input
-    mkdir -p $SCIF_APPDATA/ouput
+    mkdir -p $SCIF_APPDATA/output
     mkdir -p $SCIF_APPDATA/job
 
 %appenv us_inflection_point_hosp_sciduct
