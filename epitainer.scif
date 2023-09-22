@@ -33,7 +33,7 @@
     cat /config.json | jq --arg build_date $BUILD_DATE '. + {build_date: $build_date}' > $SCIF_APPDATA/config.json &&
     rm /config.json
 
-    echo "trying to validate the jobservice config against . . .
+    echo "trying to validate the jobservice config against . . ."
     echo "https://github.com/NSSAC/sciduct_jobservice/blob/main/src/jobservice/schema/image_configuration.json"
     REPO_NAME=sciduct_jobservice
     echo "using a Github token previously created at https://github.com/settings/tokens"
