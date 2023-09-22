@@ -1,28 +1,70 @@
 %appinstall us_inflection_point_hosp
-$MAMBA_EXE create --yes --channel conda-forge --name us_inflection_point_hosp python=3.11 &&
-$MAMBA_EXE run --name us_inflection_point_hosp pip install \
-  matplotlib==3.8.0 \
-  numpy==1.26.0 \
-  pandas==2.1.1 \
-  scipy==1.11.2
+    $MAMBA_EXE create --yes --channel conda-forge --name us_inflection_point_hosp python=3.11 &&
+    $MAMBA_EXE run --name us_inflection_point_hosp pip install \
+      matplotlib==3.8.0 \
+      numpy==1.26.0 \
+      pandas==2.1.1 \
+      scipy==1.11.2
 
-REPO_NAME=2019-nCoV_data_input
-# Enable token passed-in via GitHub Actions, or if GITHUB_TOKEN is exported locally "See -e flag."
-GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
-cd lib
-git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
-unset GITHUB_TOKEN
-cd $REPO_NAME
-git show HEAD:US-InflectionPointAnalysis_hosp.py > US-InflectionPointAnalysis_hosp.py
-git show HEAD:misc_data/co-est2019-alldata.csv > ${SCIF_APPDATA}/co-est2019-alldata.csv
-git show HEAD:misc_data/stfips_to_state.csv > ${SCIF_APPDATA}/stfips_to_state.csv
-git show HEAD:misc_data/us_subplot_grid.csv > ${SCIF_APPDATA}/us_subplot_grid.csv
+    REPO_NAME=2019-nCoV_data_input
+    # Enable token passed-in via GitHub Actions, or if GITHUB_TOKEN is exported locally "See -e flag."
+    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
+    cd lib
+    git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
+    unset GITHUB_TOKEN
+    cd $REPO_NAME
+    git show HEAD:US-InflectionPointAnalysis_hosp.py > US-InflectionPointAnalysis_hosp.py
+    git show HEAD:misc_data/co-est2019-alldata.csv > ${SCIF_APPDATA}/co-est2019-alldata.csv
+    git show HEAD:misc_data/stfips_to_state.csv > ${SCIF_APPDATA}/stfips_to_state.csv
+    git show HEAD:misc_data/us_subplot_grid.csv > ${SCIF_APPDATA}/us_subplot_grid.csv
 
 %appenv us_inflection_point_hosp
-ENV_NAME=us_inflection_point_hosp
-export ENV_NAME
-MAIN_SCRIPT=$SCIF_APPLIB/2019-nCoV_data_input/US-InflectionPointAnalysis_hosp.py
-export MAIN_SCRIPT
+    ENV_NAME=us_inflection_point_hosp
+    export ENV_NAME
+    MAIN_SCRIPT=$SCIF_APPLIB/2019-nCoV_data_input/US-InflectionPointAnalysis_hosp.py
+    export MAIN_SCRIPT
 
 %apprun us_inflection_point_hosp
-$MAMBA_EXE run --name $ENV_NAME python $MAIN_SCRIPT $@
+    $MAMBA_EXE run --name $ENV_NAME python $MAIN_SCRIPT $@
+
+%appinstall sciduct
+    BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%S.%NZ")
+    cat /config.json | jq --arg build_date $BUILD_DATE '. + {build_date: $build_date}' > $SCIF_APPDATA/config.json &&
+    rm /config.json
+
+%appenv sciduct
+    CONFIG_JSON=$SCIF_APPDATA/config.json
+    export CONFIG_JSON
+    VERSION=`cat $CONFIG_JSON | jq -r .version`
+    export VERSION
+
+%apprun sciduct
+	cat $CONFIG_JSON
+
+%appinstall us_inflection_point_hosp_sciduct
+    mkdir -p $SCIF_APPDATA/input
+    mkdir -p $SCIF_APPDATA/ouput
+    mkdir -p $SCIF_APPDATA/job
+
+%appenv us_inflection_point_hosp_sciduct
+    JOB_JSON=$SCIF_APPDATA/job/job.json
+    export JOB_JSON
+
+%apprun us_inflection_point_hosp_sciduct
+	THRESHOLD=`cat $JOB_JSON | jq -r .input.threshold`
+	UPPER=`cat $JOB_JSON | jq -r .input.upper`
+	LOWER=`cat $JOB_JSON | jq -r .input.lower`
+	AGE=`cat $JOB_JSON | jq -r .input.age`
+
+	$SCIF_APPRUN_us_inflection_point_hosp \
+        --hosp_data_path "$SCIF_APPDATA/input" \
+        --fips_to_pop_file "[e]SCIF_DATA/co-est2019-alldata.csv" \
+        --state_to_stfips_path "[e]SCIF_DATA/stfips_to_state.csv" \
+        --us_subplot_grid_path "[e]SCIF_DATA/us_subplot_grid.csv" \
+        --threshold $THRESHOLD \
+        --upper $UPPER \
+        --lower $LOWER \
+        --age $AGE \
+        --subdir ./ \
+        --fig_dir "$SCIF_APPDATA/output" \
+        --data_dir "$SCIF_APPDATA/output"
