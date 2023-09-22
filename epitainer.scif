@@ -7,7 +7,8 @@
       scipy==1.11.2
 
     REPO_NAME=2019-nCoV_data_input
-    # Enable token passed-in via GitHub Actions, or if GITHUB_TOKEN is exported locally "See -e flag."
+    echo "using a token previously created at https://github.com/settings/tokens"
+    echo "This might be passed in as a Github repo secret for Github Actions, or locally: export GITHUB_TOKEN=<your-token>"
     GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
     cd lib
     git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
@@ -31,6 +32,30 @@
     BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%S.%NZ")
     cat /config.json | jq --arg build_date $BUILD_DATE '. + {build_date: $build_date}' > $SCIF_APPDATA/config.json &&
     rm /config.json
+
+    echo "trying to validate the jobservice config against . . .
+    echo "https://github.com/NSSAC/sciduct_jobservice/blob/main/src/jobservice/schema/image_configuration.json"
+    REPO_NAME=sciduct_jobservice
+    echo "using a Github token previously created at https://github.com/settings/tokens"
+    echo "This might be passed in as a Github repo secret for Github Actions, or locally: export GITHUB_TOKEN=<your-token>"
+    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
+    cd lib
+    git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
+    unset GITHUB_TOKEN
+    cd $REPO_NAME
+    JOBSERVICE_SCHEMA=${SCIF_APPDATA}/image_configuration.json
+    git show HEAD:src/jobservice/schema/image_configuration.json > $JOBSERVICE_SCHEMA
+    # We could, actually, remove the repo at this point. But it should be minimal, with depth=1, and no checked out files.
+    JSONSCHEMA="$MAMBA_EXE run --name base jsonschema"
+    VALIDATE_CMD="$JSONSCHEMA -i $SCIF_APPDATA/config.json $JOBSERVICE_SCHEMA"
+    echo "Running: $VALIDATE_CMD"
+    eval $VALIDATE_CMD
+    if [ $? -eq 0 ]; then
+        echo "Generated Configuration appears to be valid"
+    else
+        echo "Generated Configuration failed validation"
+        exit 1
+    fi
 
 %appenv sciduct
     CONFIG_JSON=$SCIF_APPDATA_sciduct/config.json
