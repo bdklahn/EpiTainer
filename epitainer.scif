@@ -21,7 +21,7 @@
 %appenv us_inflection_point_hosp
     ENV_NAME=us_inflection_point_hosp
     export ENV_NAME
-    MAIN_SCRIPT=$SCIF_APPLIB/2019-nCoV_data_input/US-InflectionPointAnalysis_hosp.py
+    MAIN_SCRIPT=$SCIF_APPLIB_us_inflection_point_hosp/2019-nCoV_data_input/US-InflectionPointAnalysis_hosp.py
     export MAIN_SCRIPT
 
 %apprun us_inflection_point_hosp
@@ -33,7 +33,7 @@
     rm /config.json
 
 %appenv sciduct
-    CONFIG_JSON=$SCIF_APPDATA/config.json
+    CONFIG_JSON=$SCIF_APPDATA_sciduct/config.json
     export CONFIG_JSON
     VERSION=`cat $CONFIG_JSON | jq -r .version`
     export VERSION
@@ -47,7 +47,7 @@
     mkdir -p $SCIF_APPDATA/job
 
 %appenv us_inflection_point_hosp_sciduct
-    JOB_JSON=$SCIF_APPDATA/job/job.json
+    JOB_JSON=$SCIF_APPDATA_us_inflection_point_hosp_sciduct/job/job.json
     export JOB_JSON
 
 %apprun us_inflection_point_hosp_sciduct
@@ -58,9 +58,9 @@
 
 	$SCIF_APPRUN_us_inflection_point_hosp \
         --hosp_data_path "$SCIF_APPDATA/input" \
-        --fips_to_pop_file "[e]SCIF_DATA/co-est2019-alldata.csv" \
-        --state_to_stfips_path "[e]SCIF_DATA/stfips_to_state.csv" \
-        --us_subplot_grid_path "[e]SCIF_DATA/us_subplot_grid.csv" \
+        --fips_to_pop_file "$SCIF_DATA_us_inflection_point_hosp/co-est2019-alldata.csv" \
+        --state_to_stfips_path "$SCIF_DATA_us_inflection_point_hosp/stfips_to_state.csv" \
+        --us_subplot_grid_path "$SCIF_DATA_us_inflection_point_hosp/us_subplot_grid.csv" \
         --threshold $THRESHOLD \
         --upper $UPPER \
         --lower $LOWER \
