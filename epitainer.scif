@@ -1,4 +1,11 @@
 %appinstall us_inflection_point_hosp
+$MAMBA_EXE create --yes --channel conda-forge --name us_inflection_point_hosp python=3.11 &&
+$MAMBA_EXE run --name us_inflection_point_hosp pip install \
+  matplotlib==3.8.0 \
+  numpy==1.26.0 \
+  pandas==2.1.1 \
+  scipy==1.11.2
+
 REPO_NAME=2019-nCoV_data_input
 # Enable token passed-in via GitHub Actions, or if GITHUB_TOKEN is exported locally "See -e flag."
 GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
@@ -14,22 +21,8 @@ git show HEAD:misc_data/us_subplot_grid.csv > ${SCIF_APPDATA}/us_subplot_grid.cs
 %appenv us_inflection_point_hosp
 ENV_NAME=us_inflection_point_hosp
 export ENV_NAME
-
-%apphelp us_inflection_point_hosp
-echo $SCIF_APPNAME
-echo "The help script is running the conda environment: ${ENV_NAME}"
+MAIN_SCRIPT=$SCIF_APPLIB/2019-nCoV_data_input/US-InflectionPointAnalysis_hosp.py
+export MAIN_SCRIPT
 
 %apprun us_inflection_point_hosp
-echo $SCIF_APPNAME
-echo "The run script is running the conda environment: ${ENV_NAME}"
-
-# example Python app
-#%appinstall pandasplot
-#$MAMBA_EXE create --yes --channel conda-forge --name pandasplot python=3.11 &&
-#$MAMBA_EXE run --name pandasplot pip install pandas==2.1.1 matplotlib==3.8.0
-#
-#%appenv pandasplot
-#export ENV_NAME=pandasplot
-#
-#%apprun pandasplot
-#$MAMBA_EXE run --name $ENV_NAME python -c "import pandas as pd; print('pandas version: ', pd.__version__)"
+$MAMBA_EXE run --name $ENV_NAME python $MAIN_SCRIPT $@
