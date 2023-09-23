@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: ghcr.io/bdklahn/jumambar:0.1.0
+
+%setup
+    # If our build host has a Github token exported
+    # in the following variable, use that to create
+    # a file like Docker mounts for build secrets.
+    # (to keep this compatible with the Docker build)
+    # This is useful if any of the build needs to 
+    # log in to private repos (including in the SCIF recipe).
+    # See:
+    # https://github.com/settings/tokens
+    # https://docs.docker.com/build/ci/github-actions/secrets
+    [ -z $GITHUB_TOKEN ] ||
+    SECRETS_DIR=$APPTAINER_ROOTFS/run/secrets &&
+    mkdir -p $SECRETS_DIR &&
+    echo $GITHUB_TOKEN > $SECRETS_DIR/github_token
+
+%files
+    epitainer.scif /
+    config.json /
+
+%environment
+    export TZ=America/New_York
+    export SCIDUCT_CONFIG=/scif/data/sciduct/job/config.json
+
+%post
+    micromamba run --name base scif install /epitainer.scif &&
+    rm -rf /run/secrets
+    # (Don't leave any secret tokens in the container)
+
+%runscript
+    exec micromamba run --name base scif "$@"
