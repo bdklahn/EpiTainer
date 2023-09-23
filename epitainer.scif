@@ -9,7 +9,7 @@
     REPO_NAME=2019-nCoV_data_input
     echo "using a token previously created at https://github.com/settings/tokens"
     echo "This might be passed in as a Github repo secret for Github Actions, or locally: export GITHUB_TOKEN=<your-token>"
-    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
+    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token || true)}"
     cd lib
     git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
     unset GITHUB_TOKEN
@@ -38,7 +38,7 @@
     REPO_NAME=sciduct_jobservice
     echo "using a Github token previously created at https://github.com/settings/tokens"
     echo "This might be passed in as a Github repo secret for Github Actions, or locally: export GITHUB_TOKEN=<your-token>"
-    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token)}"
+    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token || true)}"
     cd lib
     git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
     unset GITHUB_TOKEN
