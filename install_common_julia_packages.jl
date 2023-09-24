@@ -14,5 +14,5 @@ Pkg.add(packages)
 Pkg.precompile()
 
 for p in packages
-    using p
+    @eval using p
 end
