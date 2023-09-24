@@ -17,6 +17,7 @@ From: ghcr.io/bdklahn/jumambar:0.1.0
     echo $GITHUB_TOKEN > $SECRETS_DIR/github_token
 
 %files
+    install_common_R_packages.R /
     install_common_julia_packages.jl /
     epitainer.scif /
     config.json /
@@ -26,6 +27,8 @@ From: ghcr.io/bdklahn/jumambar:0.1.0
     export SCIDUCT_CONFIG=/scif/data/sciduct/job/config.json
 
 %post
+    Rscript /install_common_R_packages.R
+
     julia /install_common_julia_packages.jl --shared
 
     micromamba run --name base scif install /epitainer.scif &&
