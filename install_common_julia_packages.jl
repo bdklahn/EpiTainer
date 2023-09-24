@@ -13,6 +13,4 @@ packages = [
 Pkg.add(packages)
 Pkg.precompile()
 
-for p in packages
-    @eval using p
-end
+using packages...
