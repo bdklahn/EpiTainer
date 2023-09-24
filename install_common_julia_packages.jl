@@ -1,7 +1,7 @@
 using Pkg
 
 if "--shared" in ARGS && occursin(homedir(), DEPOT_PATH[1])
-    popfirst!(DEPOT_PATH)
+    println("popping: ", popfirst!(DEPOT_PATH))
 end
 
 "common packages which might be useful for many apps"
@@ -11,3 +11,8 @@ packages = [
 ]
 
 Pkg.add(packages)
+Pkg.precompile()
+
+for p in packages
+    using p
+end
