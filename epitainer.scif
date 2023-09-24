@@ -8,11 +8,8 @@
 
     REPO_NAME=2019-nCoV_data_input
     echo "using a token previously created at https://github.com/settings/tokens"
-    echo "This might be passed in as a Github repo secret for Github Actions, or locally: export GITHUB_TOKEN=<your-token>"
-    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token || true)}"
     cd lib
-    git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
-    unset GITHUB_TOKEN
+    git clone --depth=1 --no-checkout "https://$(cat /run/secrets/github_token)@github.com/NSSAC/${REPO_NAME}.git"
     cd $REPO_NAME
     git show HEAD:US-InflectionPointAnalysis_hosp.py > US-InflectionPointAnalysis_hosp.py
     git show HEAD:misc_data/co-est2019-alldata.csv > ${SCIF_APPDATA}/co-est2019-alldata.csv
@@ -37,11 +34,8 @@
     echo "https://github.com/NSSAC/sciduct_jobservice/blob/main/src/jobservice/schema/image_configuration.json"
     REPO_NAME=sciduct_jobservice
     echo "using a Github token previously created at https://github.com/settings/tokens"
-    echo "This might be passed in as a Github repo secret for Github Actions, or locally: export GITHUB_TOKEN=<your-token>"
-    GITHUB_TOKEN="${GITHUB_TOKEN:-$(cat /run/secrets/github_token || true)}"
     cd lib
-    git clone --depth=1 --no-checkout "https://${GITHUB_TOKEN}@github.com/NSSAC/${REPO_NAME}.git"
-    unset GITHUB_TOKEN
+    git clone --depth=1 --no-checkout "https://$(cat /run/secrets/github_token)@github.com/NSSAC/${REPO_NAME}.git"
     cd $REPO_NAME
     JOBSERVICE_SCHEMA=${SCIF_APPDATA}/image_configuration.json
     git show HEAD:src/jobservice/schema/image_configuration.json > $JOBSERVICE_SCHEMA
