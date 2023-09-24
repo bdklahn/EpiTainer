@@ -1,6 +1,6 @@
 using Pkg
 
-if occursin("--shared", ARGS) && occursin(homedir(), DEPOT_PATH[1])
+if "--shared" in ARGS && occursin(homedir(), DEPOT_PATH[1])
     popfirst!(DEPOT_PATH)
 end
 
