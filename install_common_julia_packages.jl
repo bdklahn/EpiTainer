@@ -11,3 +11,5 @@ packages = [
 ]
 
 Pkg.add(packages)
+
+Pkg.precompile()
