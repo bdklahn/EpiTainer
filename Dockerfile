@@ -1,4 +1,4 @@
-FROM ghcr.io/bdklahn/jumambar:0.3.0
+FROM ghcr.io/bdklahn/jumambar:0.1.0
 
 COPY epitainer.scif /
 COPY config.json /
