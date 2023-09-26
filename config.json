@@ -1,120 +1,121 @@
 {
-    "apps": [
-      {
-        "name": "us_inflection_point_hosp",
-        "app": "us_inflection_point_hosp_sciduct",
-        "binds": {
-          "input": "scif/data/us_inflection_point_hosp_sciduct/input",
-          "job": "scif/data/us_inflection_point_hosp_sciduct/job",
-          "output": "scif/data/us_inflection_point_hosp_sciduct/output"
-        },
-        "description": "Creates inflection point plots based on hospital data",
-        "input_files": [
-          {
-            "name": "input",
-            "required": true,
-            "retrieve_provenance_files": false,
-            "types": [
-              "timeseries+csv"
-            ]
-          }
-        ],
-        "input_schema": {
-          "properties": {
-            "threshold": {
-              "type": "number",
-              "description": "Threshold required to be in surge",
-              "default": 0.03
-            },
-            "upper": {
-              "type": "number",
-              "description": "Upper bound for non-surging districts to be in plateau. Not relevant for surge plot",
-              "default": 0.01
-            },
-            "lower": {
-              "type": "number",
-              "description": "Lower bound for non-surging districts to be in plateau. Not relevant for surge plot",
-              "default": -0.01
-            },
-            "age": {
-              "type": "integer",
-              "description": "How old a surge inflection needs to be to be considered. Not relevant for surge plot",
-              "default": 10,
-              "minimum": 10
-            }
-          },
-          "required": [
-            "threshold",
-            "upper",
-            "lower",
-            "age"
+  "apps": [
+    {
+      "name": "us_inflection_point_hosp",
+      "app": "us_inflection_point_hosp_sciduct",
+      "binds": {
+        "input": "scif/data/us_inflection_point_hosp_sciduct/input",
+        "job": "scif/data/us_inflection_point_hosp_sciduct/job",
+        "output": "scif/data/us_inflection_point_hosp_sciduct/output"
+      },
+      "description": "Creates inflection point plots based on hospital data",
+      "input_files": [
+        {
+          "name": "input",
+          "required": true,
+          "retrieve_provenance_files": false,
+          "types": [
+            "timeseries+csv"
           ]
-        },
-        "output_files": {
-          "associateJobMeta": true,
-          "isContainer": true,
-          "type": "folder",
-          "contents": [
-            {
-              "match": "${MATCH}/*.png",
-              "type": "png",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.csv",
-              "type": "csv",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.vl.json",
-              "type": "vegalite+json",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.vega.json",
-              "type": "vega+json",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.json",
-              "type": "json",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.txt",
-              "type": "text",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.html",
-              "type": "html",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.gif",
-              "type": "gif",
-              "isContainer": false
-            },
-            {
-              "match": "${MATCH}/*.mp4",
-              "type": "mp4",
-              "isContainer": false
-            }
-          ]
-        },
-        "output_schema": {},
-        "resource_requirements": {
-          "cores": 1,
-          "timelimit": 240
         }
+      ],
+      "input_schema": {
+        "properties": {
+          "threshold": {
+            "type": "number",
+            "description": "Threshold required to be in surge",
+            "default": 0.03
+          },
+          "upper": {
+            "type": "number",
+            "description": "Upper bound for non-surging districts to be in plateau. Not relevant for surge plot",
+            "default": 0.01
+          },
+          "lower": {
+            "type": "number",
+            "description": "Lower bound for non-surging districts to be in plateau. Not relevant for surge plot",
+            "default": -0.01
+          },
+          "age": {
+            "type": "integer",
+            "description": "How old a surge inflection needs to be to be considered. Not relevant for surge plot",
+            "default": 10,
+            "minimum": 10
+          }
+        },
+        "required": [
+          "threshold",
+          "upper",
+          "lower",
+          "age"
+        ]
+      },
+      "output_files": {
+        "associateJobMeta": true,
+        "isContainer": true,
+        "type": "folder",
+        "contents": [
+          {
+            "match": "${MATCH}/*.png",
+            "type": "png",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.csv",
+            "type": "csv",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vl.json",
+            "type": "vegalite+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vega.json",
+            "type": "vega+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.json",
+            "type": "json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.txt",
+            "type": "text",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.html",
+            "type": "html",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.gif",
+            "type": "gif",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.mp4",
+            "type": "mp4",
+            "isContainer": false
+          }
+        ]
+      },
+      "output_schema": {
+      },
+      "resource_requirements": {
+        "cores": 1,
+        "timelimit": 240
       }
-    ],
-    "authors": [
-      "Srini Venkatramanan <srini@virginia.edu",
-      "Brian Klahn <briandk@virginia.edu>",
-      "Bryan Lewis <brylew@virginia.edu>"
-    ],
-    "description": "EpiTainer Epidemiology Apps",
-    "license": "Commercial",
-    "version": "0.1.0"
-  }
+    }
+  ],
+  "authors": [
+    "Srini Venkatramanan <srini@virginia.edu",
+    "Brian Klahn <briandk@virginia.edu>",
+    "Bryan Lewis <brylew@virginia.edu>"
+  ],
+  "description": "EpiTainer Epidemiology Apps",
+  "license": "Commercial",
+  "version": "0.1.0"
+}
