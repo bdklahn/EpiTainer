@@ -1,6 +1,391 @@
 {
   "apps": [
     {
+      "name": "epihiper_replicate_analysis",
+      "app": "epihiper_replicate_analysis_sciduct",
+      "binds": {
+        "input": "input",
+        "job": "job",
+        "output": "output"
+      },
+      "description": "Analyzes a single replicate simulations",
+      "input_files": [
+        {
+          "name": "input",
+          "required": true,
+          "retrieve_provenance_files": false,
+          "types": [
+            "epihiper_replicate",
+            "epihiperSimulation",
+            "folder"
+          ]
+        }
+      ],
+      "input_schema": {
+      },
+      "output_files": {
+        "associateJobMeta": true,
+        "isContainer": true,
+        "type": "folder",
+        "contents": [
+          {
+            "match": "${MATCH}/*.png",
+            "type": "png",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.csv",
+            "type": "csv",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vl.json",
+            "type": "vegalite+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vega.json",
+            "type": "vega+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.json",
+            "type": "json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.txt",
+            "type": "text",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.html",
+            "type": "html",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.gif",
+            "type": "gif",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.mp4",
+            "type": "mp4",
+            "isContainer": false
+          }
+        ]
+      },
+      "output_schema": {
+      },
+      "resource_requirements": {
+        "cores": 1,
+        "timelimit": 240
+      }
+    },
+    {
+      "name": "epihiper_cell_analysis",
+      "app": "epihiper_cell_analysis_sciduct",
+      "binds": {
+        "input": "input",
+        "job": "job",
+        "output": "output"
+      },
+      "description": "Analyzes N replicates of simulation cell",
+      "input_files": [
+        {
+          "name": "cell",
+          "required": true,
+          "retrieve_provenance_files": true,
+          "types": [
+            "epihiper_cell",
+            "epihiper_cell_output",
+            "folder"
+          ]
+        },
+        {
+          "name": "diseaseModel",
+          "required": false,
+          "retrieve_provenance_files": false,
+          "types": [
+            "epihiperDiseaseModel",
+            "json"
+          ]
+        }
+      ],
+      "input_schema": {
+      },
+      "output_files": {
+        "associateJobMeta": true,
+        "isContainer": true,
+        "type": "folder",
+        "contents": [
+          {
+            "match": "${MATCH}/*.png",
+            "type": "png",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.csv",
+            "type": "csv",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vl.json",
+            "type": "vegalite+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vega.json",
+            "type": "vega+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.json",
+            "type": "json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.txt",
+            "type": "text",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.html",
+            "type": "html",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.gif",
+            "type": "gif",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.mp4",
+            "type": "mp4",
+            "isContainer": false
+          }
+        ]
+      },
+      "output_schema": {
+      },
+      "resource_requirements": {
+        "cores": 1,
+        "timelimit": 60
+      }
+    },
+    {
+      "name": "epihiper_experiment_analysis",
+      "app": "epihiper_experiment_analysis_sciduct",
+      "binds": {
+        "input": "input",
+        "job": "job",
+        "output": "output"
+      },
+      "description": "exceads experiment analysis",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "experiment": {
+            "type": "string",
+            "description": "Path to experiment in FileService"
+          }
+        },
+        "required": [
+          "experiment"
+        ]
+      },
+      "input_files": [
+        {
+          "name": "experiment",
+          "required": true,
+          "retrieve_provenance_files": true,
+          "retrieve_children": {
+            "maximum_depth": 4,
+            "types": "*",
+            "maximum": 10000
+          },
+          "types": [
+            "epihiper_experiment",
+            "folder"
+          ]
+        }
+      ],
+      "output_files": {
+        "associateJobMeta": true,
+        "isContainer": true,
+        "type": "folder",
+        "contents": [
+          {
+            "match": "${MATCH}/*.xlsx",
+            "type": "excel",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.png",
+            "type": "png",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.csv",
+            "type": "csv",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vl.json",
+            "type": "vegalite+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vega.json",
+            "type": "vega+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.json",
+            "type": "json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.txt",
+            "type": "text",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.html",
+            "type": "html",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.gif",
+            "type": "gif",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.mp4",
+            "type": "mp4",
+            "isContainer": false
+          }
+        ]
+      },
+      "output_schema": {
+      },
+      "resource_requirements": {
+        "cores": 1,
+        "timelimit": 60
+      }
+    },
+    {
+      "name": "epihiper_multicell_analysis",
+      "app": "epihiper_multicell_analysis_sciduct",
+      "binds": {
+        "input": "input",
+        "job": "job",
+        "output": "output"
+      },
+      "description": "exceads multicell analysis",
+      "input_schema": {
+      },
+      "input_files": [
+        {
+          "name": "diseaseModel",
+          "required": true,
+          "retrieve_provenance_files": false,
+          "types": [
+            "epihiperDiseaseModel",
+            "json"
+          ]
+        },
+        {
+          "match": "jsonpath:cells[*]",
+          "name": "cell_",
+          "required": true,
+          "minimum": 1,
+          "retrieve_provenance_files": false,
+          "retrieve_children": {
+            "maximum_depth": 4,
+            "types": "*",
+            "maximum": 10000
+          },
+          "types": [
+            "epihiper_cell",
+            "folder"
+          ]
+        },
+        {
+          "name": "meta",
+          "required": false,
+          "retrieve_provenance_files": false,
+          "types": [
+            "csv",
+            "epihiperCellMeta"
+          ]
+        }
+      ],
+      "output_files": {
+        "associateJobMeta": true,
+        "isContainer": true,
+        "type": "folder",
+        "contents": [
+          {
+            "match": "${MATCH}/*.xlsx",
+            "type": "excel",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.png",
+            "type": "png",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.csv",
+            "type": "csv",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vl.json",
+            "type": "vegalite+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.vega.json",
+            "type": "vega+json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.json",
+            "type": "json",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.txt",
+            "type": "text",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.html",
+            "type": "html",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.gif",
+            "type": "gif",
+            "isContainer": false
+          },
+          {
+            "match": "${MATCH}/*.mp4",
+            "type": "mp4",
+            "isContainer": false
+          }
+        ]
+      },
+      "output_schema": {
+      },
+      "resource_requirements": {
+        "cores": 1,
+        "timelimit": 60
+      }
+    },
+    {
       "name": "us_inflection_point_hosp",
       "app": "us_inflection_point_hosp_sciduct",
       "binds": {
@@ -112,10 +497,11 @@
   ],
   "authors": [
     "Srini Venkatramanan <srini@virginia.edu",
-    "Brian Klahn <briandk@virginia.edu>",
-    "Bryan Lewis <brylew@virginia.edu>"
+    "Przemek Porebski <pjp2b@virginia.edu>",
+    "Bryan Lewis <brylew@virginia.edu>",
+    "Brian Klahn <briandk@virginia.edu>"
   ],
-  "description": "EpiTainer Epidemiology Apps",
+  "description": "exceads-analysis",
   "license": "Commercial",
-  "version": "0.1.0"
+  "version": "2.2.0-1"
 }
