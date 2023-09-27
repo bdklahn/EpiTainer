@@ -21,7 +21,7 @@
     CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/repl_summary.py"
     export CMD
 
-@apprun epihiper_replicate_analysis
+%apprun epihiper_replicate_analysis
     echo "Running $CMD $@"
     $CMD "$@"
 
@@ -42,7 +42,7 @@
     CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/cell_summary.py"
     export CMD
 
-@apprun epihiper_cell_analysis
+%apprun epihiper_cell_analysis
     echo "Running $CMD $@"
     $CMD "$@"
 
@@ -59,7 +59,7 @@
       --outdir /output/ \
       --prefix=cell_summary
 
-%appenv epihiper_experiment_analysis_analysis
+%appenv epihiper_experiment_analysis
     . $SCIF_APPENV_epihiper_analysis
     CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/expt_summary.py"
     export CMD
