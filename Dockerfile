@@ -10,7 +10,9 @@ COPY install_common_R_packages.R /
 # (I.e. Epi NOT Now)
 # RUN Rscript /install_common_R_packages.R
 
-RUN julia /install_common_julia_packages.jl --shared
+# Julia precompile fails,
+# almost as if it runs out of resources
+# RUN julia /install_common_julia_packages.jl --shared
 
 RUN --mount=type=secret,id=github_token \
     micromamba run --name base scif install /epitainer.scif
