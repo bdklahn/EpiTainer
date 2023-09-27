@@ -1,3 +1,114 @@
+%appinstall epihiper_analysis
+    $MAMBA_EXE create --yes --channel conda-forge --name epihiper_analysis python=3.11 &&
+    $MAMBA_EXE run --name epihiper_analysis pip install \
+      altair==5.1.1 \
+      numpy==1.26.0 \
+      pandas==2.1.1 \
+      pytest==7.4.2 \
+      pytest-cov==4.1.0 \
+      scipy==1.11.2
+    REPO_NAME=EXCEADS-Analysis
+    echo "using a token previously created at https://github.com/settings/tokens"
+    cd lib
+    git clone --depth=1 "https://$(cat /run/secrets/github_token)@github.com/NSSAC/${REPO_NAME}.git"
+
+%appenv epihiper_analysis
+    PYTHON="$MAMBA_EXE run --name epihiper_analysis python"
+    export PYTHON
+
+%appenv epihiper_replicate_analysis
+    . $SCIF_APPENV_epihiper_analysis
+    CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/repl_summary.py"
+    export CMD
+
+@apprun epihiper_replicate_analysis
+    echo "Running $CMD $@"
+    $CMD "$@"
+
+%appenv epihiper_replicate_analysis_sciduct
+	IN=/input/input
+	[ -d /input/input ] && IN=/input/input/output.csv
+    export IN
+
+%apprun epihiper_replicate_analysis_sciduct
+	echo "Running replicate analysis"
+    $SCIF_APPRUN_epihiper_replicate_analysis \
+      --EHO $IN \
+      --outdir /output/ \
+      --prefix=replicate_summary_
+
+%appenv epihiper_cell_analysis
+    . $SCIF_APPENV_epihiper_analysis
+    CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/cell_summary.py"
+    export CMD
+
+@apprun epihiper_cell_analysis
+    echo "Running $CMD $@"
+    $CMD "$@"
+
+%appenv epihiper_cell_analysis_sciduct
+    DISEASE_MODEL=/input/.cell_related/diseaseModel
+	[ -f /input/diseaseModel ] && DISEASE_MODEL=/input/diseaseModel
+    export DISEASE_MODEL
+
+%apprun epihiper_cell_analysis_sciduct
+	echo "Running cell analysis"
+    $SCIF_APPRUN_epihiper_cell_analysis  \
+      --indir /input/cell/ \
+      --disease_json $DISEASE_MODEL \
+      --outdir /output/ \
+      --prefix=cell_summary
+
+%appenv epihiper_experiment_analysis_analysis
+    . $SCIF_APPENV_epihiper_analysis
+    CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/expt_summary.py"
+    export CMD
+
+@apprun epihiper_experiment_analysis
+    echo "Running $CMD $@"
+    $CMD "$@"
+
+%appenv epihiper_experiment_analysis_sciduct
+	META=""
+	[ -f "/input/meta" ] && META="--cell_meta /input/meta"
+    export META
+	INPUT=/input/experiment/
+    export INPUT
+	DISEASE_MODEL=/input/.experiment_related/diseaseModel
+    export DISEASE_MODEL
+
+%apprun epihiper_experiment_analysis_sciduct
+	echo "Running experiment analysis"
+    $SCIF_APPRUN_epihiper_experiment_analysis \
+      $META \
+      --indir $INPUT \
+      --outdir /output/ \
+      --disease_json $DISEASE_MODEL \
+      --prefix=experiment_
+
+%appenv epihiper_multicell_analysis
+    . $SCIF_APPENV_epihiper_experiment_analysis_analysis
+
+@apprun epihiper_multicell_analysis
+    echo "Running $CMD $@"
+    $CMD "$@"
+
+%appenv epihiper_multicell_analysis_sciduct
+    . $SCIF_APPENV_epihiper_experiment_analysis_sciduct
+	INPUT=/input/cells/
+    export INPUT
+    DISEASE_MODEL=/input/diseaseModel
+    export DISEASE_MODEL
+
+%apprun epihiper_multicell_analysis_sciduct
+	echo "Running multicell experiment analysis"
+    $SCIF_APPRUN_epihiper_experiment_analysis \
+      $META \
+      --indir $INPUT \
+      --outdir /output/ \
+      --disease_json $DISEASE_MODEL \
+      --prefix=multicell_
+
 %appinstall us_inflection_point_hosp
     $MAMBA_EXE create --yes --channel conda-forge --name us_inflection_point_hosp python=3.11 &&
     $MAMBA_EXE run --name us_inflection_point_hosp pip install \
