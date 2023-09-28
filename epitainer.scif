@@ -26,16 +26,21 @@
     echo "Running $CMD $@"
     $CMD "$@"
 
+$appinstall epihiper_replicate_analysis_sciduct
+    mkdir -p $SCIF_APPDATA/input
+    mkdir -p $SCIF_APPDATA/job
+    mkdir -p $SCIF_APPDATA/output
+
 %appenv epihiper_replicate_analysis_sciduct
-    IN=/input/input
-    [ -d /input/input ] && IN=/input/input/output.csv
+    IN=$SCIF_APPDATA_epihiper_replicate_analysis_sciduct/input
+    [ -d "$IN" ] && IN=$IN/output.csv
     export IN
 
 %apprun epihiper_replicate_analysis_sciduct
     echo "Running replicate analysis"
     $SCIF_APPRUN_epihiper_replicate_analysis \
       --EHO $IN \
-      --outdir /output/ \
+      --outdir $SCIF_APPDATA/output \
       --prefix=replicate_summary_
 
 %appenv epihiper_cell_analysis
@@ -47,17 +52,23 @@
     echo "Running $CMD $@"
     $CMD "$@"
 
+$appinstall epihiper_cell_analysis_sciduct
+    mkdir -p $SCIF_APPDATA/input
+    mkdir -p $SCIF_APPDATA/job
+    mkdir -p $SCIF_APPDATA/output
+
 %appenv epihiper_cell_analysis_sciduct
-    DISEASE_MODEL=/input/.cell_related/diseaseModel
-    [ -f /input/diseaseModel ] && DISEASE_MODEL=/input/diseaseModel
+    INDIR=$SCIF_APPDATA_epihiper_cell_analysis_sciduct/input
+    DISEASE_MODEL=$INDIR/.cell_related/diseaseModel
+    [ -f $INDIR/diseaseModel ] && DISEASE_MODEL=$INDIR/diseaseModel
     export DISEASE_MODEL
 
 %apprun epihiper_cell_analysis_sciduct
     echo "Running cell analysis"
     $SCIF_APPRUN_epihiper_cell_analysis  \
-      --indir /input/cell/ \
+      --indir $SCIF_APPDATA/input/cell/ \
       --disease_json $DISEASE_MODEL \
-      --outdir /output/ \
+      --outdir $SCIF_APPDATA/output/ \
       --prefix=cell_summary
 
 %appenv epihiper_experiment_analysis
@@ -65,17 +76,23 @@
     CMD="$PYTHON $SCIF_APPLIB_epihiper_analysis/EXCEADS-Analysis/expt_summary.py"
     export CMD
 
-@apprun epihiper_experiment_analysis
+%apprun epihiper_experiment_analysis
     echo "Running $CMD $@"
     $CMD "$@"
 
+%appinstall epihiper_experiment_analysis_sciduct
+    mkdir -p $SCIF_APPDATA/input
+    mkdir -p $SCIF_APPDATA/job
+    mkdir -p $SCIF_APPDATA/output
+
 %appenv epihiper_experiment_analysis_sciduct
+    INDIR=$SCIF_APPDATA_epihiper_experiment_analysis_sciduct/input
     META=""
-    [ -f "/input/meta" ] && META="--cell_meta /input/meta"
+    [ -f "$INDIR/meta" ] && META="--cell_meta $INDIR/meta"
     export META
-    INPUT=/input/experiment/
+    INPUT=$INDIR/experiment/
     export INPUT
-    DISEASE_MODEL=/input/.experiment_related/diseaseModel
+    DISEASE_MODEL=$INDIR/.experiment_related/diseaseModel
     export DISEASE_MODEL
 
 %apprun epihiper_experiment_analysis_sciduct
@@ -83,7 +100,7 @@
     $SCIF_APPRUN_epihiper_experiment_analysis \
       $META \
       --indir $INPUT \
-      --outdir /output/ \
+      --outdir $SCIF_APPDATA/output/ \
       --disease_json $DISEASE_MODEL \
       --prefix=experiment_
 
@@ -94,11 +111,17 @@
     echo "Running $CMD $@"
     $CMD "$@"
 
+%appinstall epihiper_multicell_analysis_sciduct
+    mkdir -p $SCIF_APPDATA/input
+    mkdir -p $SCIF_APPDATA/job
+    mkdir -p $SCIF_APPDATA/output
+
 %appenv epihiper_multicell_analysis_sciduct
+    INDIR=$SCIF_APPDATA_epihiper_multicell_analysis_sciduct/input
     . $SCIF_APPENV_epihiper_experiment_analysis_sciduct
-    INPUT=/input/cells/
+    INPUT=$INDIR/cells/
     export INPUT
-    DISEASE_MODEL=/input/diseaseModel
+    DISEASE_MODEL=$INDIR/diseaseModel
     export DISEASE_MODEL
 
 %apprun epihiper_multicell_analysis_sciduct
@@ -106,7 +129,7 @@
     $SCIF_APPRUN_epihiper_experiment_analysis \
       $META \
       --indir $INPUT \
-      --outdir /output/ \
+      --outdir $SCIF_APPDATA/output/ \
       --disease_json $DISEASE_MODEL \
       --prefix=multicell_
 
@@ -174,8 +197,8 @@
 
 %appinstall us_inflection_point_hosp_sciduct
     mkdir -p $SCIF_APPDATA/input
-    mkdir -p $SCIF_APPDATA/output
     mkdir -p $SCIF_APPDATA/job
+    mkdir -p $SCIF_APPDATA/output
 
 %appenv us_inflection_point_hosp_sciduct
     JOB_JSON=$SCIF_APPDATA_us_inflection_point_hosp_sciduct/job/job.json
