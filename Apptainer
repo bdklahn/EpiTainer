@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: ghcr.io/bdklahn/jumambar:0.1.0
+From: ghcr.io/bdklahn/jumambar:0.4.0
 
 %setup
     # If our build host has a Github token exported
