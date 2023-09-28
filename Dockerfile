@@ -8,7 +8,8 @@ COPY install_common_R_packages.R /
 
 RUN Rscript /install_common_R_packages.R
 
-RUN julia /install_common_julia_packages.jl --shared
+RUN export JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all" && \
+    julia /install_common_julia_packages.jl --shared
 
 RUN mkdir -p /run/secrets
 

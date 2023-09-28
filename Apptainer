@@ -29,6 +29,7 @@ From: ghcr.io/bdklahn/jumambar:0.4.0
 %post
     Rscript /install_common_R_packages.R
 
+    export JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all"
     julia /install_common_julia_packages.jl --shared
 
     micromamba run --name base scif install /epitainer.scif &&
