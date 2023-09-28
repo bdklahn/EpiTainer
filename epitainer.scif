@@ -27,12 +27,12 @@
     $CMD "$@"
 
 %appenv epihiper_replicate_analysis_sciduct
-	IN=/input/input
-	[ -d /input/input ] && IN=/input/input/output.csv
+    IN=/input/input
+    [ -d /input/input ] && IN=/input/input/output.csv
     export IN
 
 %apprun epihiper_replicate_analysis_sciduct
-	echo "Running replicate analysis"
+    echo "Running replicate analysis"
     $SCIF_APPRUN_epihiper_replicate_analysis \
       --EHO $IN \
       --outdir /output/ \
@@ -49,11 +49,11 @@
 
 %appenv epihiper_cell_analysis_sciduct
     DISEASE_MODEL=/input/.cell_related/diseaseModel
-	[ -f /input/diseaseModel ] && DISEASE_MODEL=/input/diseaseModel
+    [ -f /input/diseaseModel ] && DISEASE_MODEL=/input/diseaseModel
     export DISEASE_MODEL
 
 %apprun epihiper_cell_analysis_sciduct
-	echo "Running cell analysis"
+    echo "Running cell analysis"
     $SCIF_APPRUN_epihiper_cell_analysis  \
       --indir /input/cell/ \
       --disease_json $DISEASE_MODEL \
@@ -70,16 +70,16 @@
     $CMD "$@"
 
 %appenv epihiper_experiment_analysis_sciduct
-	META=""
-	[ -f "/input/meta" ] && META="--cell_meta /input/meta"
+    META=""
+    [ -f "/input/meta" ] && META="--cell_meta /input/meta"
     export META
-	INPUT=/input/experiment/
+    INPUT=/input/experiment/
     export INPUT
-	DISEASE_MODEL=/input/.experiment_related/diseaseModel
+    DISEASE_MODEL=/input/.experiment_related/diseaseModel
     export DISEASE_MODEL
 
 %apprun epihiper_experiment_analysis_sciduct
-	echo "Running experiment analysis"
+    echo "Running experiment analysis"
     $SCIF_APPRUN_epihiper_experiment_analysis \
       $META \
       --indir $INPUT \
@@ -96,13 +96,13 @@
 
 %appenv epihiper_multicell_analysis_sciduct
     . $SCIF_APPENV_epihiper_experiment_analysis_sciduct
-	INPUT=/input/cells/
+    INPUT=/input/cells/
     export INPUT
     DISEASE_MODEL=/input/diseaseModel
     export DISEASE_MODEL
 
 %apprun epihiper_multicell_analysis_sciduct
-	echo "Running multicell experiment analysis"
+    echo "Running multicell experiment analysis"
     $SCIF_APPRUN_epihiper_experiment_analysis \
       $META \
       --indir $INPUT \
@@ -170,7 +170,7 @@
     export VERSION
 
 %apprun sciduct
-	cat $CONFIG_JSON
+    cat $CONFIG_JSON
 
 %appinstall us_inflection_point_hosp_sciduct
     mkdir -p $SCIF_APPDATA/input
@@ -182,12 +182,12 @@
     export JOB_JSON
 
 %apprun us_inflection_point_hosp_sciduct
-	THRESHOLD=`cat $JOB_JSON | jq -r .input.threshold`
-	UPPER=`cat $JOB_JSON | jq -r .input.upper`
-	LOWER=`cat $JOB_JSON | jq -r .input.lower`
-	AGE=`cat $JOB_JSON | jq -r .input.age`
+    THRESHOLD=`cat $JOB_JSON | jq -r .input.threshold`
+    UPPER=`cat $JOB_JSON | jq -r .input.upper`
+    LOWER=`cat $JOB_JSON | jq -r .input.lower`
+    AGE=`cat $JOB_JSON | jq -r .input.age`
 
-	$SCIF_APPRUN_us_inflection_point_hosp \
+    $SCIF_APPRUN_us_inflection_point_hosp \
         --hosp_data_path "$SCIF_APPDATA/input" \
         --fips_to_pop_file "$SCIF_DATA_us_inflection_point_hosp/co-est2019-alldata.csv" \
         --state_to_stfips_path "$SCIF_DATA_us_inflection_point_hosp/stfips_to_state.csv" \
