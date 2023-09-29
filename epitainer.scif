@@ -10,7 +10,7 @@
       pytest-cov==4.1.0
     echo saving environment settings
     $MAMBA_EXE env export --name epihiper_analysis > $SCIF_APPDATA/conda_env.yml
-    $MAMBA_EXE run --name epihiper_analysis pip freeze > python_requirements.txt
+    $MAMBA_EXE run --name epihiper_analysis pip freeze > $SCIF_APPDATA/python_requirements.txt
     REPO_NAME=EXCEADS-Analysis
     echo "using a token previously created at https://github.com/settings/tokens"
     cd lib
@@ -145,7 +145,7 @@ $appinstall epihiper_cell_analysis_sciduct
       scipy==1.11.2
     echo saving environment settings
     $MAMBA_EXE env export --name us_inflection_point_hosp > $SCIF_APPDATA/conda_env.yml
-    $MAMBA_EXE run --name us_inflection_point_hosp pip freeze > python_requirements.txt
+    $MAMBA_EXE run --name us_inflection_point_hosp pip freeze > $SCIF_APPDATA/python_requirements.txt
     REPO_NAME=2019-nCoV_data_input
     echo "using a token previously created at https://github.com/settings/tokens"
     cd lib
