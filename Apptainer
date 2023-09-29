@@ -25,6 +25,7 @@ From: ghcr.io/bdklahn/jumambar:0.4.0
 %environment
     export TZ=America/New_York
     export SCIDUCT_CONFIG=/scif/data/sciduct/job/config.json
+    export JULIA_SCRATCH_TRACK_ACCESS=0
 
 %post
     Rscript /install_common_R_packages.R

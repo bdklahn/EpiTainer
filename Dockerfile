@@ -11,6 +11,8 @@ RUN Rscript /install_common_R_packages.R
 RUN export JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all" && \
     julia /install_common_julia_packages.jl --shared
 
+ENV JULIA_SCRATCH_TRACK_ACCESS=0
+
 RUN mkdir -p /run/secrets
 
 RUN --mount=type=secret,id=github_token \
