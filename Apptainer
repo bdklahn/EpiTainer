@@ -25,13 +25,16 @@ From: ghcr.io/bdklahn/jumambar:0.4.0
 %environment
     export TZ=America/New_York
     export SCIDUCT_CONFIG=/scif/data/sciduct/job/config.json
+    export JULIA_DEPOT_PATH="/usr/local/julia/local/share/julia:$JULIA_DEPOT_PATH"
+    export JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all"
     export JULIA_SCRATCH_TRACK_ACCESS=0
 
 %post
     Rscript /install_common_R_packages.R
 
+    export JULIA_DEPOT_PATH="/usr/local/julia/local/share/julia:$JULIA_DEPOT_PATH"
     export JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all"
-    julia /install_common_julia_packages.jl --shared
+    julia /install_julia_packages.jl
 
     micromamba run --name base scif install /epitainer.scif &&
     rm -rf /run/secrets

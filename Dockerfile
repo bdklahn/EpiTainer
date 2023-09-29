@@ -8,8 +8,9 @@ COPY install_common_R_packages.R /
 
 RUN Rscript /install_common_R_packages.R
 
-RUN export JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all" && \
-    julia /install_common_julia_packages.jl --shared
+ENV JULIA_DEPOT_PATH="/usr/local/julia/local/share/julia:$JULIA_DEPOT_PATH"
+ENV JULIA_CPU_TARGET="generic;skylake-avx512,clone_all;znver2,clone_all"
+RUN julia /install_julia_packages.jl
 
 ENV JULIA_SCRATCH_TRACK_ACCESS=0
 

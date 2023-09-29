@@ -1,15 +1,13 @@
 using Pkg
 
-if "--shared" in ARGS && occursin(homedir(), DEPOT_PATH[1])
-    println("popping: ", popfirst!(DEPOT_PATH))
-end
-
 "common packages which might be useful for many apps"
-packages = [
+const common_packages = [
     "Arrow",
     "CSV",
     "DataFrames",
 ]
+
+isempty(ARGS) ? packages = common_packages : packages = ARGS
 
 Pkg.add(packages)
 
