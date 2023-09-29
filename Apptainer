@@ -18,7 +18,7 @@ From: ghcr.io/bdklahn/jumambar:0.4.0
 
 %files
     install_common_R_packages.R /
-    install_common_julia_packages.jl /
+    install_julia_packages.jl /
     epitainer.scif /
     config.json /
 

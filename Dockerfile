@@ -3,7 +3,7 @@ ARG GITHUB_TOKEN
 
 COPY epitainer.scif /
 COPY config.json /
-COPY install_common_julia_packages.jl /
+COPY install_julia_packages.jl /
 COPY install_common_R_packages.R /
 
 RUN Rscript /install_common_R_packages.R
