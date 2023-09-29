@@ -7,6 +7,7 @@ end
 "common packages which might be useful for many apps"
 packages = [
     "Arrow",
+    "CSV",
     "DataFrames",
 ]
 
