@@ -33,6 +33,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
       -
         name: Login to Image Repository
         if: github.event_name != 'pull_request'
