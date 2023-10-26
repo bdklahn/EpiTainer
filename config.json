@@ -4,9 +4,9 @@
       "name": "epihiper_replicate_analysis",
       "app": "epihiper_replicate_analysis_sciduct",
       "binds": {
-        "input": "scif/data/us_inflection_point_hosp_sciduct/input",
-        "job": "scif/data/us_inflection_point_hosp_sciduct/job",
-        "output": "scif/data/us_inflection_point_hosp_sciduct/output"
+        "input": "/scif/data/us_inflection_point_hosp_sciduct/input",
+        "job": "/scif/data/us_inflection_point_hosp_sciduct/job",
+        "output": "/scif/data/us_inflection_point_hosp_sciduct/output"
       },
       "description": "Analyzes a single replicate simulations",
       "input_files": [
@@ -86,9 +86,9 @@
       "name": "epihiper_cell_analysis",
       "app": "epihiper_cell_analysis_sciduct",
       "binds": {
-        "input": "scif/data/epihiper_cell_analysis_sciduct/input",
-        "job": "scif/data/epihiper_cell_analysis_sciduct/job",
-        "output": "scif/data/epihiper_cell_analysis_sciduct/output"
+        "input": "/scif/data/epihiper_cell_analysis_sciduct/input",
+        "job": "/scif/data/epihiper_cell_analysis_sciduct/job",
+        "output": "/scif/data/epihiper_cell_analysis_sciduct/output"
       },
       "description": "Analyzes N replicates of simulation cell",
       "input_files": [
@@ -177,9 +177,9 @@
       "name": "epihiper_experiment_analysis",
       "app": "epihiper_experiment_analysis_sciduct",
       "binds": {
-        "input": "scif/data/epihiper_experiment_analysis_sciduct/input",
-        "job": "scif/data/epihiper_experiment_analysis_sciduct/job",
-        "output": "scif/data/epihiper_experiment_analysis_sciduct/output"
+        "input": "/scif/data/epihiper_experiment_analysis_sciduct/input",
+        "job": "/scif/data/epihiper_experiment_analysis_sciduct/job",
+        "output": "/scif/data/epihiper_experiment_analysis_sciduct/output"
       },
       "description": "exceads experiment analysis",
       "input_schema": {
@@ -278,9 +278,9 @@
       "name": "epihiper_multicell_analysis",
       "app": "epihiper_multicell_analysis_sciduct",
       "binds": {
-        "input": "scif/data/epihiper_multicell_analysis_sciduct/input",
-        "job": "scif/data/epihiper_multicell_analysis_sciduct/job",
-        "output": "scif/data/epihiper_multicell_analysis_sciduct/output"
+        "input": "/scif/data/epihiper_multicell_analysis_sciduct/input",
+        "job": "/scif/data/epihiper_multicell_analysis_sciduct/job",
+        "output": "/scif/data/epihiper_multicell_analysis_sciduct/output"
       },
       "description": "exceads multicell analysis",
       "input_schema": {
@@ -389,9 +389,9 @@
       "name": "us_inflection_point_hosp",
       "app": "us_inflection_point_hosp_sciduct",
       "binds": {
-        "input": "scif/data/us_inflection_point_hosp_sciduct/input",
-        "job": "scif/data/us_inflection_point_hosp_sciduct/job",
-        "output": "scif/data/us_inflection_point_hosp_sciduct/output"
+        "input": "/scif/data/us_inflection_point_hosp_sciduct/input",
+        "job": "/scif/data/us_inflection_point_hosp_sciduct/job",
+        "output": "/scif/data/us_inflection_point_hosp_sciduct/output"
       },
       "description": "Creates inflection point plots based on hospital data",
       "input_files": [
